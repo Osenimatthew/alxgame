@@ -15,19 +15,19 @@ void loadImages(char *mapName)
         {
                 imgSrc[0] = IMG_Load("textures/wall1.png");
                 imgSrc[1] = IMG_Load("textures/wall2.png");
-                imgSrc[2] = IMG_Load("textures/windowtree.png");
-                imgSrc[3] = IMG_Load("textures/windowspooky.png");
+                imgSrc[2] = IMG_Load("textures/window1.png");
+                imgSrc[3] = IMG_Load("textures/window2.png");
                 imgSrc[4] = IMG_Load("textures/ceiling.png");
-                imgSrc[5] = IMG_Load("textures/floorboards.png");
+                imgSrc[5] = IMG_Load("textures/floorboard.png");
         }
         else
         {
                 imgSrc[0] = IMG_Load("textures/wall1.png");
                 imgSrc[1] = IMG_Load("textures/wall2.png");
-                imgSrc[2] = IMG_Load("textures/windowtree.png");
-                imgSrc[3] = IMG_Load("textures/windowspooky.png");
+                imgSrc[2] = IMG_Load("textures/window1.png");
+                imgSrc[3] = IMG_Load("textures/window2.png");
                 imgSrc[4] = IMG_Load("textures/ceiling.png");
-                imgSrc[5] = IMG_Load("textures/floorboards.png");
+                imgSrc[5] = IMG_Load("textures/floorboard.png");
         }
 
         /* get colors from texture elements and put in array */
