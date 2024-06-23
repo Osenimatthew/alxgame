@@ -11,7 +11,7 @@ void loadImages(char *mapName)
         uint8_t *element; /* color value of element at given coordinate */
         int a, b, c; /* loop counters */
 
-        if (strcmp(mapName, "maps/map_0") == 0)
+        if (strcmp(mapName, "maps/maze_01") == 0)
         {
                 imgSrc[0] = IMG_Load("textures/wall1.png");
                 imgSrc[1] = IMG_Load("textures/wall2.png");
