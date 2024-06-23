@@ -33,16 +33,26 @@ int main(int argc, char *argv[])
         time = 0;
 
         /* check user arguments and set options */
-        mapName = "\01";
-        textured = true;
-        if (argc >= 2)
-        {
-                mapName = argv[1];
-                if (argc == 3 && strcmp(argv[2], "no_tex") == 0)
-                {
-                       textured = false;
-                }
-        }
+	mapName = "\0";
+	textured = true;
+	if (argc == 3)
+	{
+		if (strcmp(argv[2], "no_tex") == 0)
+			textured = false;
+		mapName = argv[1];
+	}
+	else if (argc == 2)
+	{
+		if (strcmp(argv[1], "no_tex") == 0)
+		{
+			mapName = "maps/maze_0";
+			textured = false;
+		}
+		else
+			mapName = argv[1];
+	}
+	else if (argc == 1)
+		mapName = "maps/maze_0";
 
         /* start SDL and create window and renderer */
         if (!initializeSDL())
