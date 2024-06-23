@@ -14,7 +14,7 @@ extern SDL_Texture *texture;
 extern uint32_t buffer[SCREEN_HEIGHT][SCREEN_WIDTH];
 
 /* array of textures */
-extern uint32_t tiles[TEX_COUNT][TEX_HEIGHT][TEX_WIDTH];
+extern uint32_t tiles[TOTAL_TEXTURE][TEX_HEIGHT][TEX_WIDTH];
 
 /* X and Y start position */
 extern point_t pos;

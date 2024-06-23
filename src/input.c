@@ -1,131 +1,131 @@
 #include "maze.h"
 
 /**
- * input - checks user input for movement
+ * movement - checks for the keys pressed by user for movement
  * @maze: 2D array defining maze map
  * Return: void
  */
-void input(int *maze)
+void movement(int *maze)
 {
-	const uint8_t *keystate; /* current key state */
-	double oldTime; /* time of previous frame */
-	double frameTime; /* time the frame has taken in seconds */
-	double oldDirX, oldPlaneX; /* previous dir.x and plane.x */
-	double moveSpeed; /* move speed modifier */
-	double rotateSpeed; /* rotate speed modifier */
+        const uint8_t *keystate; /* key state */
+        double prevTime; /* time of previous frame */
+        double frameTime; /* time the frame has taken in seconds */
+        double prevDirX, prevPlaneX; /* previous direction in x and plane in x */
+        double Speed; /* how fast the player moves */
+        double turningSpeed; /* speed at which the player rotates */
 
-	keystate = SDL_GetKeyboardState(NULL);
-	oldTime = time;
-	time = SDL_GetTicks();
-	frameTime = (time - oldTime) / 1000.0;
-	moveSpeed = frameTime * 5.0;
-	rotateSpeed = frameTime * 3.0;
+        keystate = SDL_GetKeyboardState(NULL);
+        prevTime = time;
+        time = SDL_GetTicks();
+        frameTime = (time - prevTime) / 1000.0;
+        Speed = (frameTime * 5.0) / 2;
+        turningSpeed = (frameTime * 3.0) / 2;
 
-	/* move forward if no wall in front */
-	if (keystate[SDL_SCANCODE_W])
-	{
-		if (!*((int *)maze + (int)(pos.x + dir.x * moveSpeed)
-		       * MAP_WIDTH + (int)pos.y))
-			pos.x += dir.x * moveSpeed;
-		if (!*((int *)maze + (int)pos.x * MAP_WIDTH +
-		       (int)(pos.y + dir.y * moveSpeed)))
-			pos.y += dir.y * moveSpeed;
-	}
+        /* key for moving forward if no wall is in front */
+        if (keystate[SDL_SCANCODE_W])
+        {
+                if (!*((int *)maze + (int)(pos.x + dir.x * Speed)
+                       * MAP_WIDTH + (int)pos.y))
+                        pos.x += dir.x * Speed;
+                if (!*((int *)maze + (int)pos.x * MAP_WIDTH +
+                       (int)(pos.y + dir.y * Speed)))
+                        pos.y += dir.y * Speed;
+        }
 
-	/* move backward if no wall behind */
-	if (keystate[SDL_SCANCODE_S])
-	{
-		if (!*((int *)maze + (int)(pos.x - dir.x * moveSpeed) *
-		       MAP_WIDTH + (int)(pos.y)))
-			pos.x -= dir.x * moveSpeed;
-		if (!*((int *)maze + (int)(pos.x) * MAP_WIDTH +
-		       (int)(pos.y - dir.y * moveSpeed)))
-			pos.y -= dir.y * moveSpeed;
-	}
+        /* key for moving backwards if no wall is behind */
+        if (keystate[SDL_SCANCODE_S])
+        {
+                if (!*((int *)maze + (int)(pos.x - dir.x * Speed) *
+                       MAP_WIDTH + (int)(pos.y)))
+                        pos.x -= dir.x * Speed;
+                if (!*((int *)maze + (int)(pos.x) * MAP_WIDTH +
+                       (int)(pos.y - dir.y * Speed)))
+		pos.y -= dir.y * Speed;
+        }
 
-	/* strafe left */
-	if (keystate[SDL_SCANCODE_Q])
-	{
-		if (!*((int *)maze + (int)(pos.x - plane.x * moveSpeed) *
-		       MAP_WIDTH + (int)(pos.y)))
-			pos.x -= plane.x * moveSpeed;
-		if (!*((int *)maze + (int)(pos.x) * MAP_WIDTH +
-		       (int)(pos.y - plane.y * moveSpeed)))
-			pos.y -= plane.y * moveSpeed;
-	}
+        /* key for moving to the left */
+        if (keystate[SDL_SCANCODE_Q])
+        {
+                if (!*((int *)maze + (int)(pos.x - plane.x * Speed) *
+                       MAP_WIDTH + (int)(pos.y)))
+                        pos.x -= plane.x * Speed;
+                if (!*((int *)maze + (int)(pos.x) * MAP_WIDTH +
+                       (int)(pos.y - plane.y * Speed)))
+                        pos.y -= plane.y * Speed;
+        }
 
-	/* strafe right */
-	if (keystate[SDL_SCANCODE_E])
-	{
-		if (!*((int *)maze + (int)(pos.x + plane.x * moveSpeed) *
-		       MAP_WIDTH + (int)(pos.y)))
-			pos.x += plane.x * moveSpeed;
-		if (!*((int *)maze + (int)(pos.x) * MAP_WIDTH +
-		       (int)(pos.y + plane.y * moveSpeed)))
-			pos.y += plane.y * moveSpeed;
-	}
+        /* key for moving to the right */
+        if (keystate[SDL_SCANCODE_E])
+        {
+                if (!*((int *)maze + (int)(pos.x + plane.x * Speed) *
+                       MAP_WIDTH + (int)(pos.y)))
+                        pos.x += plane.x * Speed;
+                if (!*((int *)maze + (int)(pos.x) * MAP_WIDTH +
+                       (int)(pos.y + plane.y * Speed)))
+                        pos.y += plane.y * Speed;
+        }
 
-	/* rotate left */
-	if (keystate[SDL_SCANCODE_D])
-	{
-		/* rotate camera direction */
-		oldDirX = dir.x;
-		dir.x = dir.x * cos(rotateSpeed) - dir.y * sin(rotateSpeed);
-		dir.y = oldDirX * sin(rotateSpeed) + dir.y * cos(rotateSpeed);
+        /* key for turning to the left */
+        if (keystate[SDL_SCANCODE_D])
+        {
+                /* rotating camera direction the left */
+                prevDirX = dir.x;
+                dir.x = dir.x * cos(turningSpeed) - dir.y * sin(turningSpeed);
+                dir.y = prevDirX * sin(turningSpeed) + dir.y * cos(turningSpeed);
 
-		/* rotate camera plane */
-		oldPlaneX = plane.x;
-		plane.x = plane.x * cos(rotateSpeed) - plane.y * sin(rotateSpeed);
-		plane.y = oldPlaneX * sin(rotateSpeed) + plane.y * cos(rotateSpeed);
-	}
+                /* rotating camera plane */
+                prevPlaneX = plane.x;
+                plane.x = plane.x * cos(turningSpeed) - plane.y * sin(turningSpeed);
+                plane.y = prevPlaneX * sin(turningSpeed) + plane.y * cos(turningSpeed);
+        }
+/* key for turning to the right */
+        if (keystate[SDL_SCANCODE_A])
+        {
+                /* rotating camera direction to the right */
+                prevDirX = dir.x;
+                dir.x = dir.x * cos(-turningSpeed) - dir.y * sin(-turningSpeed);
+                dir.y = prevDirX * sin(-turningSpeed) + dir.y * cos(-turningSpeed);
 
-	/* rotate right */
-	if (keystate[SDL_SCANCODE_A])
-	{
-		/* rotate camera direction */
-		oldDirX = dir.x;
-		dir.x = dir.x * cos(-rotateSpeed) - dir.y * sin(-rotateSpeed);
-		dir.y = oldDirX * sin(-rotateSpeed) + dir.y * cos(-rotateSpeed);
-
-		/* rotate camera plane */
-		oldPlaneX = plane.x;
-		plane.x = plane.x * cos(-rotateSpeed) - plane.y * sin(-rotateSpeed);
-		plane.y = oldPlaneX * sin(-rotateSpeed) + plane.y * cos(-rotateSpeed);
-	}
+                /* rotating camera plane */
+                prevPlaneX = plane.x;
+                plane.x = plane.x * cos(-turningSpeed) - plane.y * sin(-turningSpeed);
+                plane.y = prevPlaneX * sin(-turningSpeed) + plane.y * cos(-turningSpeed);
+        }
 }
 
 /**
- * quit - checks if user quits
- * Return: True if user quits, else False
+ * end - checks if user ended the event
+ * Return: True if user ends the event, else False
  */
-bool quit(void)
+bool end(void)
 {
-	SDL_Event event; /* event listener */
-	bool quit;
-	uint32_t windowFlags;
+        SDL_Event event; /* event listener */
+        bool end;
+        uint32_t windowFlags;
 
-	quit = false;
-	while (SDL_PollEvent(&event) != 0)
-	{
-		/* if window's close button is pressed */
-		if (event.type == SDL_QUIT)
-			quit = true;
+        end = false;
+        while (SDL_PollEvent(&event) != 0)
+        {
+                /* if window's close button is pressed */
+                if (event.type == SDL_QUIT)
+                        end = true;
 
-		/* if ESC is pressed */
-		if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_ESCAPE)
-			quit = true;
+                /* if ESC is pressed */
+                if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_ESCAPE)
+                        end = true;
 
-		/* toggles between windowed and fullscreens */
-		if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_f)
-		{
-			windowFlags = SDL_GetWindowFlags(window);
+                /* toggles between windowed and fullscreens */
+                if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_f)
+                {
+ windowFlags = SDL_GetWindowFlags(window);
 
-			if (windowFlags & SDL_WINDOW_FULLSCREEN)
-				SDL_SetWindowFullscreen(window, SDL_FALSE);
-			else
-				SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN);
-		}
-	}
+                        if (windowFlags & SDL_WINDOW_FULLSCREEN)
+                                SDL_SetWindowFullscreen(window, SDL_FALSE);
+                        else
+                                SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN);
+                }
+        }
 
-	return (quit);
+        return (end);
 }
+
