@@ -33,7 +33,7 @@ int main(int argc, char *argv[])
         time = 0;
 
         /* check user arguments and set options */
-        mapName = "map/maze_01";
+        mapName = "maps/maze_01";
         textured = true;
         if (argc >= 2)
         {
